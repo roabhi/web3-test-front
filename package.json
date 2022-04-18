@@ -1,0 +1,32 @@
+{
+  "name": "web3-test",
+  "version": "1.0.0",
+  "description": "Testing Web3",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build ./src/index.html --no-source-maps -d dist --public-url ./",
+    "start": "parcel serve ./src/index.html",
+    "clean": "rimraf dist .parcel-cache"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "assert": "^2.0.0",
+    "events": "^3.3.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "parcel": "^2.4.1",
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1",
+    "rimraf": "^3.0.2",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0"
+  },
+  "dependencies": {
+    "web3": "^1.7.3"
+  }
+}
