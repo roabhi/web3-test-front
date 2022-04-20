@@ -1,18 +1,58 @@
+/**
+ * REMIX IDE CONTRACT URL -> https://remix.ethereum.org/#optimize=true&runs=200&evmVersion=null&version=soljson-v0.8.4+commit.c7e474f2.js
+ */
+
+
 import 'regenerator-runtime/runtime'
+import { getBalanceFromAddress, getContractOwner, mintTokens } from './utils/web3.utils'
+import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, TESTNET } from './globals/dom.globals'
 
-import { getBalanceFromAddress } from './utils/web3.utils'
-import { connectBtn, addressDisplay, addressBalance, TESTNET } from './globals/dom.globals'
+/**
+ * SMART CONTRACT DETAILS 
+ */
 
+import abi from './contract/abi.json'
+import { CONTRACT_ADDRESS } from './globals/dom.globals'
 
      
 
-const displayData = (address) =>
+const onAmountChange = (e) => {
+    
+    let currentVal = amountCounter.value
+    
+    if (e.target.classList.contains('increase-amount'))
+    {
+        if (currentVal < 10 )
+        {
+            currentVal++
+            amountCounter.value = currentVal
+        }
+    }
+    else
+    {
+        if (currentVal > 0)
+        {
+            currentVal--
+            amountCounter.value = currentVal
+        }
+    }
+},
+
+
+broadcast = (e) => {
+    mintTokens(localStorage.getItem(`${TESTNET}`), amountCounter.value)
+},
+
+displayData = (address) =>
 {
     document.body.classList.add('logged')
     connectBtn.innerText = "disconnect"
     addressDisplay.innerText = '' + address.substr(0,6) + '...' + address.substr(address.length - 3)
     addressDisplay.setAttribute('title', address)
     getBalanceFromAddress(address)
+    getContractOwner(address)
+    contractUi.classList.remove('hidden')
+
 },
 
 metaLogIn = async() => {
@@ -21,10 +61,6 @@ metaLogIn = async() => {
     
     if (!document.body.classList.contains('logged'))    {
         
-        // document.body.classList.add('logged')
-        // connectBtn.innerText = "disconnect"
-        // addressDisplay.innerText = 'User address is \n' + accounts[0].substr(0,6) + '...' + accounts[0].substr(accounts[0].length - 3)
-        // addressDisplay.setAttribute('title', accounts[0])
         localStorage.setItem(`${TESTNET}`, accounts[0])
         displayData(accounts[0])
     }
@@ -34,11 +70,11 @@ metaLogIn = async() => {
         connectBtn.innerText = "connect"
         addressDisplay.innerText = 'user address'
         addressDisplay.setAttribute('title', '')
-        addressBalance.innerText = ""
+        addressBalance.innerText = "ETH"
+        localStorage.removeItem(`${TESTNET}`)
+        contractUi.classList.add('hidden')
 
-    }
-    
-    
+    }    
     
 },
 
@@ -59,6 +95,11 @@ init = (e) => {
         }
 
         connectBtn.addEventListener('click', metaLogIn, false)
+        sendBtn.addEventListener('click', broadcast, false)
+        Array.from(document.querySelectorAll("button[class$='amount']")).map((obj) => {
+            obj.addEventListener('click', onAmountChange, false)
+        })
+
         
         
     }

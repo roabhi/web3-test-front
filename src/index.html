@@ -9,19 +9,22 @@
 
 </head>
 <body>
-    <h3 class="fixed top-3 w-screen text-right font-mono py-10 px-10 top-0 text-blue-800">Metamask UI</h3>
+    <h3 class="fixed top-3 w-screen text-left font-mono py-10 px-10 top-0 text-white">Metamask UI</h3>
+    <button id="access" class="fixed top-8 right-8 text-sm font-sans font-semibold rounded-full bg-blue-800 shadow-lg text-white text-center py-2 px-4 capitalize shadow-lg shadow-blue-800/50"></button>
     <div class="static grid grid-cols-2 gap-4 jusity-center items-center h-sreen">
         <div class="flex justify-center items-center h-screen bg-blue-500">
-            <button id="access" class="font-sans font-semibold rounded-full bg-blue-800 shadow-lg shadow-blue-800/50 text-white text-center py-4 px-8 capitalize"></button>
+            <h4 class="text-2xl text-white font-mono font-semibold"><span title="0x00" class="block text-center text-white" id="user-wallet-address">user address</span><span class="block text-center" id="user-balance">ETH</span></h4>
         </div>
-        <div id="data" class="flex justify-center items-center flex-col h-screen font-mono">
-            <span title="0x00" class="rounded-full bg-blue-800 shadow-lg shadow-blue-800/50 text-white text-center py-4 px-8" id="user-wallet-address">user address</span>
-            <span class="text-center" id="user-balance"></span>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+        <div id="data" class="flex justify-center items-center flex-col h-screen font-mono">            
+            <div id="contract-ui" class="hidden text-center w-80 bg-blue-500 rounded-md px-10 py-10">
+                <h4 class="text-m text-white font-mono font-semibold mb-5">How many tokens you want to mint?</h4>
+                <div class="flex justify-center items-center">
+                    <button id="decrease" class="text-sm font-sans bg-white text-blue-500 rounded px-5 py-5 font-semibold text-white text-center decreace-amount">-</button>
+                    <input type="text" id="amount-counter" placeholder="0" value="0" class="bg-transparent border-transparent color-white font-sans text-center font-light text-white font-bold font-mono focus:outline-none w-20 placeholder:text-white placeholder:font-mono placeholder:font-bold"/>
+                    <button id="increase" class="text-sm font-sans bg-white text-blue-500 rounded px-5 py-5 font-semibold text-white text-center increase-amount">+</button>
+                </div>
+                <button id="send" class="text-sm font-sans font-semibold rounded-full bg-blue-800 shadow-lg text-white text-center py-2 px-4 capitalize shadow-lg shadow-blue-800/50 mt-8 w-40">send</button>
+            </div>
         </div>
     </div>    
     <script type="module" src="./js/index.js"></script>
