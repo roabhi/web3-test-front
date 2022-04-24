@@ -4,8 +4,8 @@
 
 
 import 'regenerator-runtime/runtime'
-import { getBalanceFromAddress, getContractOwner, mintTokens } from './utils/web3.utils'
-import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, TESTNET } from './globals/dom.globals'
+import { getBalanceFromAddress, getContractOwner, mintTokens } from './utils/ethers.utils'
+import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, NET } from './globals/dom.globals'
 
 /**
  * SMART CONTRACT DETAILS 
@@ -40,7 +40,7 @@ const onAmountChange = (e) => {
 
 
 broadcast = (e) => {
-    mintTokens(localStorage.getItem(`${TESTNET}`), amountCounter.value)
+    mintTokens(localStorage.getItem(`${NET}`), amountCounter.value)
 },
 
 displayData = (address) =>
@@ -50,7 +50,9 @@ displayData = (address) =>
     addressDisplay.innerText = '' + address.substr(0,6) + '...' + address.substr(address.length - 3)
     addressDisplay.setAttribute('title', address)
     getBalanceFromAddress(address)
+    .then((res) => addressBalance.innerText = res.substring(0,6) + ' ETH')
     getContractOwner(address)
+    .then((res) => console.log('owner is ', res))
     contractUi.classList.remove('hidden')
 
 },
@@ -61,7 +63,7 @@ metaLogIn = async() => {
     
     if (!document.body.classList.contains('logged'))    {
         
-        localStorage.setItem(`${TESTNET}`, accounts[0])
+        localStorage.setItem(`${NET}`, accounts[0])
         displayData(accounts[0])
     }
     else 
@@ -71,7 +73,7 @@ metaLogIn = async() => {
         addressDisplay.innerText = 'user address'
         addressDisplay.setAttribute('title', '')
         addressBalance.innerText = "ETH"
-        localStorage.removeItem(`${TESTNET}`)
+        localStorage.removeItem(`${NET}`)
         contractUi.classList.add('hidden')
 
     }    
@@ -83,10 +85,10 @@ init = (e) => {
 
     if (window.ethereum)
     {
-        console.log(window.ethereum.isConnected())
-        if (localStorage.getItem(`${TESTNET}`) && window.ethereum.isConnected())
+        //console.log(window.ethereum.isConnected())
+        if (localStorage.getItem(`${NET}`) && window.ethereum.isConnected())
         {
-            displayData(localStorage.getItem(`${TESTNET}`))
+            displayData(localStorage.getItem(`${NET}`))
         }
         else
         {
