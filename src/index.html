@@ -9,7 +9,8 @@
 
 </head>
 <body>
-    <h3 class="fixed top-3 w-screen text-left font-mono py-10 px-10 top-0 text-white">Metamask UI - NFT Minter</h3>
+    <div id="alert-msg" class="hidden fixed flex justify-center text-white mx-auto inset-x-0 top-8 text-center"><p class="rounded-full font-sans shadow-lg shadow-green-800/50 font-semibild bg-green-400 p-3 text-center w-2/12" >Transaction Succes!</p></div>
+    <h3 class="fixed top-3 w-screen text-left font-mono py-10 px-10 top-0 text-white">NFT Minter</h3>
     <button id="access" class="fixed top-8 right-8 text-sm font-sans font-semibold rounded-full bg-blue-800 shadow-lg text-white text-center py-2 px-4 capitalize shadow-lg shadow-blue-800/50"></button>
     <div class="static grid grid-cols-2 gap-4 jusity-center items-center h-sreen">
         <div class="flex justify-center items-center h-screen bg-blue-500">
@@ -17,7 +18,7 @@
         </div>
         <div id="data" class="flex justify-center items-center flex-col h-screen font-mono">            
             <div id="contract-ui" class="hidden text-center w-80 bg-blue-500 rounded-md px-10 py-10">
-                <h4 class="text-m text-white font-mono font-semibold mb-5">How many tokens you want to mint?</h4>
+                <h4 class="text-m text-white font-mono font-semibold mb-5"><span class="block font-s txt-center text-white pb-4" id="supply"></span>How many tokens you want to mint?</h4>
                 <div class="flex justify-center items-center">
                     <button id="decrease" class="text-sm font-sans bg-white text-blue-500 rounded px-5 py-5 font-semibold text-white text-center decreace-amount">-</button>
                     <input type="text" id="amount-counter" placeholder="0" value="0" class="bg-transparent border-transparent color-white font-sans text-center font-light text-white font-bold font-mono focus:outline-none w-20 placeholder:text-white placeholder:font-mono placeholder:font-bold"/>

@@ -4,8 +4,8 @@
 
 
 import 'regenerator-runtime/runtime'
-import { getBalanceFromAddress, getContractOwner, mintTokens } from './utils/ethers.utils'
-import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, NET } from './globals/dom.globals'
+import { getBalanceFromAddress, getContractOwner, mintTokens, getTokenSupply } from './utils/ethers.utils'
+import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, NET, tokenSupply } from './globals/dom.globals'
 
 /**
  * SMART CONTRACT DETAILS 
@@ -41,7 +41,13 @@ const onAmountChange = (e) => {
 
 broadcast = (e) => {
     mintTokens(localStorage.getItem(`${NET}`), amountCounter.value)
-},
+    .then(() => {
+        getTokenSupply()
+        .then((res) => tokenSupply.innerText = `minted MNTs : ${res.toString()}`)
+    })
+
+    
+}, 
 
 displayData = (address) =>
 {
@@ -51,6 +57,8 @@ displayData = (address) =>
     addressDisplay.setAttribute('title', address)
     getBalanceFromAddress(address)
     .then((res) => addressBalance.innerText = res.substring(0,6) + ' ETH')
+    getTokenSupply()
+    .then((res) => tokenSupply.innerText = `minted MNTs : ${res.toString()}`)
     getContractOwner(address)
     .then((res) => console.log('owner is ', res))
     contractUi.classList.remove('hidden')
@@ -73,6 +81,7 @@ metaLogIn = async() => {
         addressDisplay.innerText = 'user address'
         addressDisplay.setAttribute('title', '')
         addressBalance.innerText = "ETH"
+        tokenSupply.innerText = ''
         localStorage.removeItem(`${NET}`)
         contractUi.classList.add('hidden')
 
