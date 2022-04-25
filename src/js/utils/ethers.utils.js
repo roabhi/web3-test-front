@@ -22,30 +22,29 @@ export const  sendTx = async(tran, ethAddress, privateKey, value=0) =>{
 
 mintTokens = async(address, amount) => {
 
-    
-    console.log(address, amount )
-    
-    
-    const my_provider = new ethers.providers.Web3Provider(window.ethereum,"any");
-    // // Prompt user for account connections
-    await my_provider.send("eth_requestAccounts", []);
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    // const add = await provider.send('eth_requestAccounts', [])
+    const signer = provider.getSigner()
+    const signerAddress = await signer.getAddress()
 
-    console.log("signer is ", my_provider.getSigner())
+    console.log(provider, signer, signerAddress)
 
+    // const signer = await provider.getSigner()
+    const mntContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider)
 
-    const my_signer = my_provider.getSigner();
+    let currentSupply = await mntContract.totalSupply()
+    console.log(currentSupply.toString())
 
-    const my_wallet = new ethers.Wallet(PRIVATE_KEY, my_provider)
-    const my_contract = new ethers.Contract( CONTRACT_ADDRESS , abi , provider)
-    const my_contractWithWallet = my_contract.connect(my_wallet)
     
+    
+
     if (amount && amount > 0)
     {
            
-        const tx = await my_contractWithWallet.Mint(amount)
-        await tx.wait()
-        console.log(tx)
-        
+        const txRes = await mntContract.connect(signer).Mint(amount)
+        await txRes.wait()
+        currentSupply = await mntContract.totalSupply()
+        console.log(currentSupply.toString())
     }
     
     
