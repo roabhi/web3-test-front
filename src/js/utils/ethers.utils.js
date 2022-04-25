@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import abi from "../contract/abi.json"
-import { alertMsg, CONTRACT_ADDRESS, NET} from "../globals/dom.globals";
+import { alertMsg, CONTRACT_ADDRESS, NET, TOKEN_PRICE} from "../globals/dom.globals";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum)
 const contract = new ethers.Contract( CONTRACT_ADDRESS , abi , provider )
@@ -20,15 +20,13 @@ export const mintTokens = async(address, amount) => {
     // const mntContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider)
 
     let currentSupply = await contract.totalSupply()
-    console.log(currentSupply.toString())
-
-    
+    console.log(currentSupply.toString())   
     
 
     if (amount && amount > 0)
-    {
-           
-        const txRes = await contract.connect(signer).Mint(amount)
+    {           
+        const options = {value: ethers.utils.parseEther(TOKEN_PRICE)}
+        const txRes = await contract.connect(signer).Mint(amount, options)
         await txRes.wait()
         currentSupply = await contract.totalSupply()
         console.log(currentSupply.toString())
