@@ -9,6 +9,9 @@ const contract = new ethers.Contract( CONTRACT_ADDRESS , abi , provider )
 
 export const mintTokens = async(address, amount) => {
 
+
+    console.log(provider.getNetwork())
+
     //const provider = new ethers.providers.Web3Provider(window.ethereum)
     //const add = await provider.send('eth_requestAccounts', [])
     const signer = provider.getSigner()
@@ -20,20 +23,27 @@ export const mintTokens = async(address, amount) => {
     // const mntContract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider)
 
     let currentSupply = await contract.totalSupply()
-    console.log(currentSupply.toString())   
+    // console.log(currentSupply.toString())   
     
 
     if (amount && amount > 0)
     {           
+        // shadow-green-800/50 font-semibold bg-green-400
         const options = {value: ethers.utils.parseEther(TOKEN_PRICE)}
         const txRes = await contract.connect(signer).Mint(amount, options)
+
+
+
+        alertMsg.classList.remove('hidden')  
         await txRes.wait()
         currentSupply = await contract.totalSupply()
         console.log(currentSupply.toString())
-        alertMsg.classList.remove('hidden')
+        alertMsg.querySelector('p').classList.remove('shadow-green-800/50', 'bg-blue-400')
+        alertMsg.querySelector('p').classList.add('shadow-green-800/50', 'bg-green-400')
+        alertMsg.querySelector('p').innerText = 'Transaction Success'
         setTimeout(() => {
             alertMsg.classList.add('hidden')
-        }, 2000)
+        }, 3000)
     }
     return true    
 },
@@ -48,5 +58,22 @@ getContractOwner = async (address) =>{
 
 
 getBalanceFromAddress = async (address) => {  
-    return ethers.utils.formatEther(await provider.getBalance(address))
+    const net = await provider.getNetwork()
+
+    console.log(net.name)
+    if (net.name != NET)
+    {
+        alertMsg.querySelector('p').classList.remove('w-2/12')
+        alertMsg.querySelector('p').classList.add('w-4/12')
+        alertMsg.classList.remove('hidden')
+        alertMsg.querySelector('p').classList.remove('shadow-blue-800/50', 'bg-blue-400')
+        alertMsg.querySelector('p').classList.add('shadow-red-800/50', 'bg-red-400')
+        alertMsg.querySelector('p').innerText = 'please connect to rinkeby testnet and reload page'
+    }
+    else
+    {
+        return ethers.utils.formatEther(await provider.getBalance(address))
+    } 
+
+    
 }

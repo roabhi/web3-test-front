@@ -2,9 +2,8 @@
   "name": "web3-test",
   "version": "1.0.0",
   "description": "Testing Web3",
-  "main": "index.js",
   "scripts": {
-    "build": "parcel build ./src/index.html --no-source-maps -d dist --public-url ./",
+    "build": "parcel build --public-url ./ ./src/index.html --dist-dir dist",
     "start": "parcel serve ./src/index.html",
     "clean": "rimraf dist .parcel-cache"
   },

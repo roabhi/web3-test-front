@@ -3,9 +3,9 @@
  */
 
 
-import 'regenerator-runtime/runtime'
+// import 'regenerator-runtime/runtime'
 import { getBalanceFromAddress, getContractOwner, mintTokens, getTokenSupply } from './utils/ethers.utils'
-import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, NET, tokenSupply } from './globals/dom.globals'
+import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, NET, tokenSupply, mintingFee, TOKEN_PRICE } from './globals/dom.globals'
 
 /**
  * SMART CONTRACT DETAILS 
@@ -25,7 +25,7 @@ const onAmountChange = (e) => {
         if (currentVal < 10 )
         {
             currentVal++
-            amountCounter.value = currentVal
+            // amountCounter.value = currentVal
         }
     }
     else
@@ -33,9 +33,11 @@ const onAmountChange = (e) => {
         if (currentVal > 0)
         {
             currentVal--
-            amountCounter.value = currentVal
+            // amountCounter.value = currentVal
         }
     }
+
+    amountCounter.value = currentVal
 },
 
 
@@ -43,7 +45,7 @@ broadcast = (e) => {
     mintTokens(localStorage.getItem(`${NET}`), amountCounter.value)
     .then(() => {
         getTokenSupply()
-        .then((res) => tokenSupply.innerText = `minted MNTs : ${res.toString()}`)
+        .then((res) => tokenSupply.innerText = `Minted MNTs : ${res.toString()}`)
     })
 
     
@@ -55,10 +57,11 @@ displayData = (address) =>
     connectBtn.innerText = "disconnect"
     addressDisplay.innerText = '' + address.substr(0,6) + '...' + address.substr(address.length - 3)
     addressDisplay.setAttribute('title', address)
+    mintingFee.innerText = TOKEN_PRICE
     getBalanceFromAddress(address)
     .then((res) => addressBalance.innerText = res.substring(0,6) + ' ETH')
     getTokenSupply()
-    .then((res) => tokenSupply.innerText = `minted MNTs : ${res.toString()}`)
+    .then((res) => tokenSupply.innerText = `Minted MNTs : ${res.toString()}`)
     getContractOwner(address)
     .then((res) => console.log('owner is ', res))
     contractUi.classList.remove('hidden')
