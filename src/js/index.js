@@ -3,38 +3,25 @@
  */
 
 
-// import 'regenerator-runtime/runtime'
-import { getBalanceFromAddress, getContractOwner, mintTokens, getTokenSupply } from './utils/ethers.utils'
+import 'regenerator-runtime/runtime'
+import { getBalanceFromAddress, getContractOwner, mintTokens, getTokenSupply, getAccounts } from './utils/ethers.utils'
 import { connectBtn, sendBtn, addressDisplay, addressBalance, amountCounter, contractUi, NET, tokenSupply, mintingFee, TOKEN_PRICE } from './globals/dom.globals'
-
-/**
- * SMART CONTRACT DETAILS 
- */
-
-import abi from './contract/abi.json'
-import { CONTRACT_ADDRESS } from './globals/dom.globals'
-
      
 
 const onAmountChange = (e) => {
     
+    
     let currentVal = amountCounter.value
     
-    if (e.target.classList.contains('increase-amount'))
+    if (e.target.classList.contains('increase'))
     {
         if (currentVal < 10 )
-        {
             currentVal++
-            // amountCounter.value = currentVal
-        }
     }
     else
     {
-        if (currentVal > 0)
-        {
-            currentVal--
-            // amountCounter.value = currentVal
-        }
+        if (currentVal > 0)        
+            currentVal--        
     }
 
     amountCounter.value = currentVal
@@ -46,6 +33,12 @@ broadcast = (e) => {
     .then(() => {
         getTokenSupply()
         .then((res) => tokenSupply.innerText = `Minted MNTs : ${res.toString()}`)
+    })
+    .then(() => {
+        const accounts = getAccounts()
+        .then((accounts) => {
+            getBalanceFromAddress(accounts[0])
+            .then((res) => addressBalance.innerText = res.substring(0,6) + ' ETH')})
     })
 
     
@@ -70,25 +63,27 @@ displayData = (address) =>
 
 metaLogIn = async() => {
     
-    const accounts =  await window.ethereum.request({method : 'eth_requestAccounts'});
-    
-    if (!document.body.classList.contains('logged'))    {
+    const accounts =  getAccounts().then(() => {
+        if (!document.body.classList.contains('logged'))    {
         
-        localStorage.setItem(`${NET}`, accounts[0])
-        displayData(accounts[0])
-    }
-    else 
-    {
-        document.body.classList.remove('logged')
-        connectBtn.innerText = "connect"
-        addressDisplay.innerText = 'user address'
-        addressDisplay.setAttribute('title', '')
-        addressBalance.innerText = "ETH"
-        tokenSupply.innerText = ''
-        localStorage.removeItem(`${NET}`)
-        contractUi.classList.add('hidden')
-
-    }    
+            localStorage.setItem(`${NET}`, accounts[0])
+            displayData(accounts[0])
+        }
+        else 
+        {
+            document.body.classList.remove('logged')
+            connectBtn.innerText = "connect"
+            addressDisplay.innerText = 'user address'
+            addressDisplay.setAttribute('title', '')
+            addressBalance.innerText = "ETH"
+            tokenSupply.innerText = ''
+            localStorage.removeItem(`${NET}`)
+            contractUi.classList.add('hidden')
+    
+        }
+    })
+    
+       
     
 },
 
@@ -97,7 +92,7 @@ init = (e) => {
 
     if (window.ethereum)
     {
-        //console.log(window.ethereum.isConnected())
+        // console.log(window.ethereum.isConnected())
         if (localStorage.getItem(`${NET}`) && window.ethereum.isConnected())
         {
             displayData(localStorage.getItem(`${NET}`))
@@ -110,7 +105,7 @@ init = (e) => {
 
         connectBtn.addEventListener('click', metaLogIn, false)
         sendBtn.addEventListener('click', broadcast, false)
-        Array.from(document.querySelectorAll("button[class$='amount']")).map((obj) => {
+        Array.from(document.querySelectorAll("button.amount")).map((obj) => {
             obj.addEventListener('click', onAmountChange, false)
         })
 

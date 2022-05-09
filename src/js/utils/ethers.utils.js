@@ -10,7 +10,7 @@ const contract = new ethers.Contract( CONTRACT_ADDRESS , abi , provider )
 export const mintTokens = async(address, amount) => {
 
 
-    console.log(provider.getNetwork())
+    // console.log(provider.getNetwork())
 
     //const provider = new ethers.providers.Web3Provider(window.ethereum)
     //const add = await provider.send('eth_requestAccounts', [])
@@ -28,22 +28,22 @@ export const mintTokens = async(address, amount) => {
 
     if (amount && amount > 0)
     {           
-        // shadow-green-800/50 font-semibold bg-green-400
         const options = {value: ethers.utils.parseEther(TOKEN_PRICE)}
         const txRes = await contract.connect(signer).Mint(amount, options)
-
-
 
         alertMsg.classList.remove('hidden')  
         await txRes.wait()
         currentSupply = await contract.totalSupply()
         console.log(currentSupply.toString())
-        alertMsg.querySelector('p').classList.remove('shadow-green-800/50', 'bg-blue-400')
+        alertMsg.querySelector('p').classList.remove('shadow-blue-800/50', 'bg-blue-400')
         alertMsg.querySelector('p').classList.add('shadow-green-800/50', 'bg-green-400')
         alertMsg.querySelector('p').innerText = 'Transaction Success'
         setTimeout(() => {
             alertMsg.classList.add('hidden')
-        }, 3000)
+            alertMsg.querySelector('p').classList.remove('shadow-green-800/50', 'bg-green-400')
+            alertMsg.querySelector('p').classList.add('shadow-blue-800/50', 'bg-blue-400')
+            alertMsg.querySelector('p').innerText = 'Processing Transaction...'
+        }, 2500)
     }
     return true    
 },
@@ -60,7 +60,6 @@ getContractOwner = async (address) =>{
 getBalanceFromAddress = async (address) => {  
     const net = await provider.getNetwork()
 
-    console.log(net.name)
     if (net.name != NET)
     {
         alertMsg.querySelector('p').classList.remove('w-2/12')
@@ -76,4 +75,8 @@ getBalanceFromAddress = async (address) => {
     } 
 
     
+},
+
+getAccounts = async () => {
+    return await window.ethereum.request({method : 'eth_requestAccounts'})
 }
