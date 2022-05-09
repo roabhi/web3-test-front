@@ -63,7 +63,7 @@ displayData = (address) =>
 
 metaLogIn = async() => {
     
-    const accounts =  getAccounts().then(() => {
+    const accounts =  getAccounts().then((accounts) => {
         if (!document.body.classList.contains('logged'))    {
         
             localStorage.setItem(`${NET}`, accounts[0])
