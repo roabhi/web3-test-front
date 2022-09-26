@@ -1,6 +1,6 @@
 # web3-test-front
 
-This is a very simple NFT (ERC-721) minter made as a test just to try how interacting with [Metamask](https://metamask.io/) and live (knid of) smart contracts would be. The tool is live on Rinkeby testnet so if you want to try it out you would need some faucet tokens first. You can get some here:
+This is a very simple NFT (ERC-721) minter made as a test just to try how interacting with [Metamask](https://metamask.io/) and live (kind of) smart contracts would be. The tool is live on Rinkeby testnet so if you want to try it out you would need some faucet tokens first. You can get some here:
 
 [rinkebyfaucet](https://rinkebyfaucet.com/)
 
