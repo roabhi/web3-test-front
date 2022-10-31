@@ -7,34 +7,36 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0 user-scalable=no"
     />
-    <title>Web3-test</title>
+    <title>MNTs Minter</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <div
       id="alert-msg"
-      class="hidden fixed flex justify-center text-white mx-auto inset-x-0 top-8 text-center"
+      class="alert-msg fixed z-10 flex justify-center h-full w-full text-white top-0 left-0 text-center bg-blue-800/[.85] hidden"
     >
       <p
-        class="rounded-full font-sans shadow-lg shadow-blue-800/50 font-semibold bg-blue-400 p-3 text-center w-2/12"
+        class="flex justify-center items-center font-mono text-xl h-full font-semibold md:w-5/12"
       >
-        Processing Transaction...
+        Please connect to Goerli testnet and reload the page
       </p>
     </div>
     <h3
-      class="fixed top-3 w-screen text-left font-mono py-10 px-10 top-0 text-white"
+      class="fixed top-3 w-screen text-left font-mono py-10 px-10 top-0 text-white heading"
     >
-      NFT Minter
+      <span class="relative">MNT Minter</span>
     </h3>
     <button
       id="access"
-      class="fixed top-8 right-8 text-sm font-sans font-semibold rounded-full bg-blue-800 shadow-lg text-white text-center py-2 px-4 capitalize shadow-lg shadow-blue-800/50"
+      class="fixed top-12 md:top-11 right-8 text-xs md:text-sm font-sans font-semibold rounded-full bg-blue-800 shadow-lg text-white text-center py-2 px-4 capitalize shadow-lg shadow-blue-800/50"
     ></button>
     <div
       class="static grid grid-cols-1 md:grid-cols-2 gap-4 jusity-center items-center md:h-full"
     >
-      <div class="flex justify-center items-center h-80 md:h-full bg-blue-500">
-        <h4 class="text-2xl text-white font-mono font-semibold">
+      <div class="flex justify-center items-center h-72 md:h-full bg-blue-500">
+        <h4
+          class="text-xl md:text-2xl pt-[4rem] pb-0 md:pt-0 text-white font-mono font-semibold"
+        >
           <span
             title="0x00"
             class="block text-center text-white"
@@ -45,49 +47,106 @@
       </div>
       <div
         id="data"
-        class="flex justify-center items-center flex-col h-96 md:h-screen font-mono"
+        class="flex justify-center items-center flex-col h-72 md:h-36 md:h-screen font-mono"
       >
         <div
           id="contract-ui"
-          class="hidden text-center w-80 bg-blue-500 shadow-lg rounded-md px-10 py-10"
+          class="hidden md:text-center w-full md:w-80 bg-white md:bg-blue-500 shadow:none md:shadow-lg md:shadow-blue-800/50 rounded-md px-10 py-10"
         >
-          <h4 class="text-m text-white font-mono font-semibold mb-1">
+          <h4
+            class="text-m text-blue-500 md:text-white font-mono font-semibold mb-1 relative"
+          >
             Minting fee:
-            <span class="font-s txt-center text-white pb-4" id="fee"></span>
-          </h4>
-          <h4 class="text-m text-white font-mono font-semibold mb-5">
             <span
-              class="block font-s txt-center text-white pb-4"
-              id="supply"
-            ></span
-            >How many tokens you want to mint?
+              class="font-s txt-center text-blue-500 md:text-white pb-4 absolute right-0 md:static"
+              id="fee"
+            ></span>
           </h4>
-          <div class="flex justify-center items-center">
-            <button
-              id="decrease"
-              class="text-sm font-sans bg-white text-blue-500 rounded px-5 py-5 font-semibold text-white text-center decrease amount"
+          <h4
+            class="text-m text-blue-500 md:text-white font-mono font-semibold mb-5 relative"
+          >
+            Minted MNTs:
+            <span
+              class="font-s txt-center text-blue-500 md:text-white pb-4 absolute right-0 md:static"
+              id="supply"
+            ></span>
+          </h4>
+          <div
+            class="rounded-lg md:rounded-none mt-7 md:mt-0 bg-blue-500 shadow-lg shadow-blue-800/50 md:shadow-none"
+          >
+            <h4
+              class="block text-sm text-center font-semibold text-white pb-4 px-4 pt-6 md:px-0 md:pt-0"
             >
-              -
-            </button>
-            <input
-              type="text"
-              id="amount-counter"
-              placeholder="0"
-              value="0"
-              class="bg-transparent border-transparent color-white font-sans text-center font-light text-white font-bold font-mono focus:outline-none w-20 placeholder:text-white placeholder:font-mono placeholder:font-bold"
-            />
-            <button
-              id="increase"
-              class="text-sm font-sans bg-white text-blue-500 rounded px-5 py-5 font-semibold text-white text-center increase amount"
+              How many tokens you want to mint?
+            </h4>
+            <div
+              class="flex justify-center items-center pb-10 md:pb-0 mt-4 md:mt-0"
             >
-              +
-            </button>
+              <button
+                id="decrease"
+                class="text-sm font-sans bg-blue-500 text-white md:text-blue-500 rounded px-5 py-5 font-semibold text-white text-center decrease amount"
+              >
+                <svg
+                  width="24"
+                  height="1"
+                  viewBox="0 0 24 1"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <line
+                    x1="0.5"
+                    y1="0.5"
+                    x2="23.5"
+                    y2="0.500004"
+                    stroke="white"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+              <input
+                type="text"
+                id="amount-counter"
+                placeholder="0"
+                value="0"
+                class="bg-blue-800 border-transparent text-white font-sans text-center font-sans font-bold focus:outline-none w-20 h-20 p-5 placeholder:text-white placeholder:font-mono placeholder:font-bold rounded-full"
+              />
+              <button
+                id="increase"
+                class="text-sm font-sans bg-blue-500 text-white md:text-blue-500 rounded px-5 py-5 font-semibold text-white text-center increase amount"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 0.5C13 0.223858 12.7761 0 12.5 0C12.2239 0 12 0.223858 12 0.5V11L0.5 11C0.223858 11 0 11.2239 0 11.5C0 11.7761 0.223858 12 0.5 12L12 12V23.5C12 23.7761 12.2239 24 12.5 24C12.7761 24 13 23.7761 13 23.5V12L23.5 12C23.7761 12 24 11.7761 24 11.5C24 11.2239 23.7761 11 23.5 11L13 11V0.5Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
           <button
             id="send"
-            class="text-sm font-sans font-semibold rounded-full bg-blue-800 shadow-lg text-white text-center py-2 px-4 capitalize shadow-lg shadow-blue-800/50 mt-8 w-40"
+            class="send text-sm font-sans font-semibold rounded-full bg-blue-800 text-white text-center py-4 px-8 capitalize shadow-lg shadow-blue-800/50 mt-0 md:mt-8 w-4/5 md:w-60 fixed bottom-8 left-1/2 transform -translate-x-1/2 md:static md:transform-none md:shadow-blue-800/50"
           >
-            send
+            <span>send</span>
+            <svg
+              class="inline ml-5 hidden"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              width="16"
+              height="16"
+            >
+              <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+              <path
+                style="fill: #fff"
+                d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"
+              />
+            </svg>
           </button>
         </div>
       </div>

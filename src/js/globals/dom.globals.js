@@ -13,4 +13,4 @@ export const connectBtn = document.getElementById('access'),
   alertMsg = document.getElementById('alert-msg'),
   NET = 'goerli',
   CONTRACT_ADDRESS = '0x92EbA29b65441E64A21B4ed2d7deB91E72B6EbfF',
-  TOKEN_PRICE = '0.005'
+  TOKEN_PRICE = '0.0005'

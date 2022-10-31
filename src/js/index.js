@@ -23,10 +23,14 @@ import {
   TOKEN_PRICE,
 } from './globals/dom.globals'
 
+import '../index.css'
+
 const onAmountChange = (e) => {
+    console.log('clicked')
+
     let currentVal = amountCounter.value
 
-    if (e.target.classList.contains('increase')) {
+    if (e.currentTarget.classList.contains('increase')) {
       if (currentVal < 10) currentVal++
     } else {
       if (currentVal > 0) currentVal--
@@ -38,7 +42,7 @@ const onAmountChange = (e) => {
     mintTokens(localStorage.getItem(`${NET}`), amountCounter.value)
       .then(() => {
         getTokenSupply().then(
-          (res) => (tokenSupply.innerText = `Minted MNTs : ${res.toString()}`)
+          (res) => (tokenSupply.innerText = `${res.toString()}`)
         )
       })
       .then(() => {
@@ -60,7 +64,7 @@ const onAmountChange = (e) => {
       (res) => (addressBalance.innerText = res.substring(0, 6) + ' ETH')
     )
     getTokenSupply().then(
-      (res) => (tokenSupply.innerText = `Minted MNTs : ${res.toString()}`)
+      (res) => (tokenSupply.innerText = `${res.toString()}`)
     )
     getContractOwner(address).then((res) => console.log('owner is ', res))
     contractUi.classList.remove('hidden')
